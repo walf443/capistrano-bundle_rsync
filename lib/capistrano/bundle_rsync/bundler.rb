@@ -2,12 +2,15 @@ require 'capistrano/bundle_rsync/base'
 require 'capistrano/configuration/filter'
 
 class Capistrano::BundleRsync::Bundler < Capistrano::BundleRsync::Base
-  def install
+  def install(force = false)
     Bundler.with_clean_env do
       with bundle_app_config: config.local_base_path do
         opts = "--gemfile #{config.local_release_path}/Gemfile --deployment --quiet --path #{config.local_bundle_path} --without development test"
         if standalone = config.bundle_install_standalone_option
           opts += " #{standalone}"
+        end
+        if force
+          opts += " --force"
         end
         execute :bundle, opts
         execute :rm, "#{config.local_base_path}/config"

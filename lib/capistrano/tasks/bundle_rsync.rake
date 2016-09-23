@@ -35,6 +35,12 @@ namespace :bundle_rsync do
       end
     end
 
+    task :install_force do
+      run_locally do
+        bundle_rsync_bundler.install(true)
+      end
+    end
+
     task :rsync do
       run_locally do
         if bundle_rsync_config.skip_bundle
