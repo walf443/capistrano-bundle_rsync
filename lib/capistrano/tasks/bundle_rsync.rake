@@ -111,6 +111,7 @@ namespace :bundle_rsync do
     end
   end
 
+  before 'bundle_rsync:bundler:install_force', 'bundle_rsync:create_release'
   after 'bundle_rsync:create_release', 'bundle_rsync:bundler:install'
   after 'bundle_rsync:bundler:install', 'bundle_rsync:rsync_release'
   after 'bundle_rsync:rsync_release', 'bundle_rsync:rsync_shared'
